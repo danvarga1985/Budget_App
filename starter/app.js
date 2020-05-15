@@ -35,7 +35,22 @@ var UIController = (function() {
 //GLOBAL APP CONTROLLER
 var controller = (function(budgetCtrl, UICtrl) {
 
-    var DOM = UICtrl.getDomStrings();
+    var setupEventListeners = function() {
+
+        var DOM = UICtrl.getDomStrings();
+
+        document.querySelector(DOM.inputBtn).addEventListener('click', function() {
+            ctrlAddItem();
+     
+         });
+
+         document.addEventListener('keypress', function(event) {
+            //Check if Enter key was pressed - Enter keycode: 13 ** event.which - used for older browsers
+            if (event.keyCode === 13 || event.which === 13) {
+                ctrlAddItem();
+            }
+        });
+    };
 
     var ctrlAddItem= function() {
         //1. Get the field input data
@@ -52,19 +67,13 @@ var controller = (function(budgetCtrl, UICtrl) {
 
     };
 
-    document.querySelector(DOM.inputBtn).addEventListener('click', function() {
-       ctrlAddItem();
-
-    });
-
-    document.addEventListener('keypress', function(event) {
-        //Check if Enter key was pressed - Enter keycode: 13 ** event.which - used for older browsers
-        if (event.keyCode === 13 || event.which === 13) {
-            ctrlAddItem();
+    return {
+        init: function() {
+            setupEventListeners();
         }
-    });
+    }
 
 })(budgetController, UIController);
 
-
+controller.init();
 
