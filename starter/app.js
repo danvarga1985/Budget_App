@@ -1,7 +1,34 @@
 //BUDGET CONTROLLER
 var budgetController = (function() {
-    //code
+    
+    var Expense = function(id, description, value) {
+        this.id = id;
+        this.description = description;
+        this.value = value;
+    }
 
+    var Income = function(id, description, value) {
+        this.id = id;
+        this.description = description;
+        this.value = value;
+    }
+
+    var allExpenses = [];
+    var allIncomes = [];
+    var totalExpenses = 0;
+    var totalIncome = 0;
+
+    var data = {
+        allItems: {
+            allExpenses: [],
+            allIncomes: []
+        },
+        totals: {
+            exp = 0,
+            inc = 0
+        }
+        
+    }
 })();
 
 
@@ -44,7 +71,7 @@ var controller = (function(budgetCtrl, UICtrl) {
      
          });
 
-         document.addEventListener('keypress', function(event) {
+        document.addEventListener('keypress', function(event) {
             //Check if Enter key was pressed - Enter keycode: 13 ** event.which - used for older browsers
             if (event.keyCode === 13 || event.which === 13) {
                 ctrlAddItem();
@@ -75,5 +102,6 @@ var controller = (function(budgetCtrl, UICtrl) {
 
 })(budgetController, UIController);
 
+//Run our program
 controller.init();
 
