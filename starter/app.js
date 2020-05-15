@@ -13,22 +13,48 @@ var budgetController = (function() {
         this.value = value;
     }
 
-    var allExpenses = [];
-    var allIncomes = [];
-    var totalExpenses = 0;
-    var totalIncome = 0;
-
     var data = {
         allItems: {
-            allExpenses: [],
-            allIncomes: []
+            exp: [],
+            inc: []
         },
         totals: {
-            exp = 0,
-            inc = 0
-        }
-        
+            exp: 0,
+            inc: 0
+        }  
     }
+
+    var generateUUID = function() {
+        return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+            (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16));
+    }
+
+    return {
+        addItem: function(type, des, val) {
+            var newItem, ID;
+
+            //Create a unique ID
+            ID = generateUUID();
+
+            //Create new item based on 'inc' or 'exp' type
+            if (type === 'exp') {
+                newItem = new Expense(ID, des, val);
+            } else if (type === 'inc') {
+                newItem = new Income(ID, des, val)
+            }
+
+            //Push it into data structure
+            data.allItems[type].push(newItem);
+
+            //Return the new element
+            return newItem;
+        },
+
+        testing: function() {
+            console.log(data);
+        }
+    };
+
 })();
 
 
@@ -79,12 +105,14 @@ var controller = (function(budgetCtrl, UICtrl) {
         });
     };
 
-    var ctrlAddItem= function() {
+    var ctrlAddItem = function() {
+        var input, newItem;
+
         //1. Get the field input data
-        var input = UIController.getInput();
-        console.log(input);
+        input = UIController.getInput();
 
         //2. Add the item to the budget controller
+        newItem = budgetCtrl.addItem(input.type, input.description, input.value);
 
         //3. Add the new item to the UI
 
