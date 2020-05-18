@@ -127,7 +127,8 @@ var UIController = (function () {
         incomeLabel: '.budget__income--value',
         expenseLabel: '.budget__expenses--value',
         percentageLabel: '.budget__expenses--percentage',
-        container: '.container'
+        container: '.container',
+        incomeList: '.income__list'
     }
 
     return {
@@ -167,6 +168,11 @@ var UIController = (function () {
 
             //Insert HTML into the DOM
             document.querySelector(element).insertAdjacentHTML('beforeend', newHtlm);
+        },
+
+        deleteListItem: function (selectorID) {
+            var el = document.getElementById(selectorID);
+            el.parentNode.removeChild(el);
         },
 
         //Clear the 'Description' and 'Value' input fields
@@ -257,8 +263,10 @@ var controller = (function (budgetCtrl, UICtrl) {
             budgetCtrl.deleteItem(type, ID);
 
             //2. Delete the item from the UI
+            UICtrl.deleteListItem(itemID);
 
             //3. Update and show the new budget
+            updateBudget();
         }
     }
 
